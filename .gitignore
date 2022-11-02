@@ -1,15 +1,5 @@
 # Java
 *.class
 *.jar
-
-# IntelliJ
-out/
-.idea/
-.idea_modules/
-
-# Eclipse
-.settings/
-bin/
-.metadata
-.classpath
-.project
+/.idea/libraries/*.xml
+/.idea/modules.xml
