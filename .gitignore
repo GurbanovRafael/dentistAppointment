@@ -1,29 +1,13 @@
-##############################
-## Java
-##############################
+# Java
 *.class
 *.jar
 
-##############################
-## Maven
-##############################
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-pom.xml.bak
-
-##############################
-## IntelliJ
-##############################
+# IntelliJ
 out/
 .idea/
 .idea_modules/
 
-##############################
-## Eclipse
-##############################
+# Eclipse
 .settings/
 bin/
 .metadata
