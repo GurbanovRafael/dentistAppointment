@@ -7,4 +7,5 @@ target/
 /.idea/modules.xml
 /.idea/compiler.xml
 /.idea/jarRepositories.xml
+/.idea/workspace.xml
 /**/*.iml
