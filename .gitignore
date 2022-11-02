@@ -1,5 +1,10 @@
-# Java
-*.class
 *.jar
+.classpath
+.project
+.settings/
+target/
 /.idea/libraries/*.xml
 /.idea/modules.xml
+/.idea/compiler.xml
+/.idea/jarRepositories.xml
+/**/*.iml
