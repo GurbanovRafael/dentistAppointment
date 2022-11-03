@@ -8,12 +8,15 @@ import java.time.LocalDateTime;
 
 public class DentistVisitDTO {
 
+    @NotNull
     @Size(min = 1, max = 50)
     String patientFirstName;
 
+    @NotNull
     @Size(min = 1, max = 50)
     String patientLastName;
 
+    @NotNull
     @Size(min = 1, max = 50)
     String dentistName;
 
