@@ -54,11 +54,11 @@
         </thead>
         <tbody>
         <tr>
-            <td><span th:text="${appointment.getId()}"> Id </span></td>
-            <td><span th:text="${appointment.getPatientFirstName()}"> first name </span></td>
-            <td><span th:text="${appointment.getPatientLastName()}"> Last Name </span></td>
-            <td><span th:text="${appointment.getDentistName()}"> Dentist Name </span></td>
-            <td><span th:text="${#temporals.format(appointment.getVisitTime(), 'dd-MM-yyyy HH:mm')}"> Visit time </span>
+            <td><span th:text="${appointment.getId()}"></span></td>
+            <td><span th:text="${appointment.getPatientFirstName()}"></span></td>
+            <td><span th:text="${appointment.getPatientLastName()}"></span></td>
+            <td><span th:text="${appointment.getDentistName()}"></span></td>
+            <td><span th:text="${#temporals.format(appointment.getVisitTime(), 'dd-MM-yyyy HH:mm')}"></span>
             </td>
         </tr>
         </tbody>
