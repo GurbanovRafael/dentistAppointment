@@ -1,12 +1,13 @@
 package com.cgi.dentistapp.controller;
 
 import com.cgi.dentistapp.dto.DentistVisitDTO;
+import com.cgi.dentistapp.entity.DentistVisitEntity;
+import com.cgi.dentistapp.model.SearchArgs;
 import com.cgi.dentistapp.service.DentistVisitService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -15,7 +16,9 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @EnableAutoConfiguration
@@ -40,6 +43,7 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         model.addAttribute("appointments", dentistVisitService.findAllAppointments());
         model.addAttribute("dentistVisitDTO", null);
         model.addAttribute("editId", -1);
+        model.addAttribute("searchArgs", new SearchArgs());
     }
 
     public DentistAppController(DentistVisitService dentistVisitService) {
@@ -87,7 +91,7 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
                     otherVisitTime.getMinute()).plusHours(1);
 
 
-            if (selectedVisitTime.isBefore(otherVisitTimeHourLater)) {
+            if (selectedVisitTime.isAfter(otherVisitTime) && selectedVisitTime.isBefore(otherVisitTimeHourLater)) {
                 bindingResult.rejectValue("visitTime", "errors.overlappingVisitTime", "Please pick a later visit time");
 
                 return true;
@@ -151,6 +155,7 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         model.addAttribute("dentistVisitDTO", new DentistVisitDTO());
         model.addAttribute("dentistMap", dentistMap);
         model.addAttribute("editId", id);
+        model.addAttribute("searchArgs", new SearchArgs());
 
         return "appointments";
     }
@@ -176,6 +181,33 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         dentistVisitService.updateVisit(dentistVisitDTO);
 
         initModel(model);
+
+        return "appointments";
+    }
+
+    @PostMapping("/filter")
+    public String filterAppointments(Model model, SearchArgs searchArgs) {
+        String value = searchArgs.getValue();
+
+        // had issues understanding java list conversion from stream to list
+        // https://stackoverflow.com/questions/122105/how-to-filter-a-java-collection-based-on-predicate
+        if (value.length() > 0) {
+            List<DentistVisitEntity> filteredEntities = dentistVisitService.findAllAppointments().stream().filter(appointment -> {
+                return appointment.getPatientFirstName().contains(value) ||
+                        appointment.getPatientLastName().contains(value) ||
+                        appointment.getDentistName().contains(value) ||
+                        appointment.getVisitTime().toLocalDate().toString().contains(value) ||
+                        appointment.getVisitTime().toLocalTime().toString().contains(value);
+
+            }).collect(Collectors.toList());
+
+            model.addAttribute("appointments", filteredEntities);
+            model.addAttribute("dentistVisitDTO", null);
+            model.addAttribute("editId", -1);
+            model.addAttribute("searchArgs", searchArgs);
+        } else {
+            initModel(model);
+        }
 
         return "appointments";
     }
