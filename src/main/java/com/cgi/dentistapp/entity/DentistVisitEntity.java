@@ -14,7 +14,7 @@ public class DentistVisitEntity {
 
     private String patientLastName;
 
-    private String doctorName;
+    private String dentistName;
 
     private LocalDateTime visitTime;
 
@@ -42,12 +42,12 @@ public class DentistVisitEntity {
         this.patientLastName = patientLastName;
     }
 
-    public String getDoctorName() {
-        return doctorName;
+    public String getDentistName() {
+        return dentistName;
     }
 
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
+    public void setDentistName(String dentistName) {
+        this.dentistName = dentistName;
     }
 
     public LocalDateTime getVisitTime() {
