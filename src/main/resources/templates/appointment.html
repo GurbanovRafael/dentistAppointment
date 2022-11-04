@@ -25,7 +25,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class=" collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
                     <a class="nav-link mx-2" aria-current="page" href="#" th:href="@{/}"
@@ -39,11 +39,30 @@
         </div>
     </div>
 </nav>
-<div class="container">
-    <div class="row" style="margin-top:20%">
-        <h4 th:text="#{registration.ok}" class="text-center text-success p-3">registration.ok</h4>
-        <h4 th:if="${message != null}" th:text="${message}" class="text-center text-success p-3">Message here</h4>
-    </div>
+<div class="container text-center">
+    <h3 style="padding: 16px 0 24px;">Dentist registration <span class="badge bg-primary">info</span></h3>
+    <table class="table table-info table-striped table-hover"
+           style="margin: 20px auto 0;max-width: 600px;outline: 1px solid #707070;">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Doctor</th>
+            <th scope="col">Visit time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span th:text="${appointment.getId()}"> Id </span></td>
+            <td><span th:text="${appointment.getPatientFirstName()}"> first name </span></td>
+            <td><span th:text="${appointment.getPatientLastName()}"> Last Name </span></td>
+            <td><span th:text="${appointment.getDentistName()}"> Dentist Name </span></td>
+            <td><span th:text="${#temporals.format(appointment.getVisitTime(), 'dd-MM-yyyy HH:mm')}"> Visit time </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

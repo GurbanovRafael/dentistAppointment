@@ -6,30 +6,36 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+// getters and setters are set up according to https://www.w3schools.com/java/java_encapsulation.asp
 public class DentistVisitDTO {
 
-    @NotNull
-    @Size(min = 1, max = 50)
-    String patientFirstName;
+    Long id;
 
     @NotNull
     @Size(min = 1, max = 50)
-    String patientLastName;
+    private String patientFirstName;
 
     @NotNull
     @Size(min = 1, max = 50)
-    String dentistName;
+    private String patientLastName;
+
+    @NotNull
+    @Size(min = 1, max = 50)
+    private String dentistName;
 
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    LocalDateTime visitTime;
+    private LocalDateTime visitTime;
 
     public DentistVisitDTO() {
     }
 
-    public DentistVisitDTO(String dentistName, LocalDateTime visitTime) {
-        this.dentistName = dentistName;
-        this.visitTime = visitTime;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDentistName() {

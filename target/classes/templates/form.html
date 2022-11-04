@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <!--  Adding Bootstrap for simple prototyping - https://getbootstrap.com   -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -28,62 +28,79 @@
         <div class=" collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active" aria-current="page" href="#" th:href="@{/}">Book Appointment</a>
+                    <a class="nav-link mx-2" aria-current="page" href="#" th:href="@{/}"
+                       th:text="#{nav.link.book}">Book an Appointment</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="#" th:href="@{/all}">View All Appointments</a>
+                    <a class="nav-link mx-2" href="#" th:href="@{/appointments}" th:text="#{nav.link.view}">View All
+                        Appointments</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="container">
+<div class=" container">
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <form class="row g-3" action="#" th:action="@{/}" th:object="${dentistVisitDTO}" method="post">
+            <form class="row g-3" action="#" th:action="@{/}" th:object="${dentistVisitDTO}"
+                  method="post">
                 <div class="row mb-3" style="margin-top:60px">
-                    <label for="patientFirstName" class="col-sm-3 col-form-label mt-6">Patient First Name</label>
+                    <label for="patientFirstName" class="col-sm-3 col-form-label mt-6">Patient First
+                        Name</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" th:field="*{patientFirstName}" id="patientFirstName"
-                               placeholder="Enter patient first name"/>
-                        <span th:if="${#fields.hasErrors('patientFirstName')}" th:errorclass="text-danger"
-                              th:errors="*{patientFirstName}">name.error</span>
+                        <input type="text" class="form-control" th:field="*{patientFirstName}"
+                               id="patientFirstName"
+                               th:placeholder="#{input.placeholder.firstName}" th:required="required"/>
+                        <span th:if="${#fields.hasErrors('patientFirstName')}"
+                              th:errorclass="text-danger"
+                              th:errors="*{patientFirstName}" th:text="#{errors.firstName}"></span>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="patientLastName" class="col-sm-3 col-form-label">Patient Last Name</label>
+                    <label for="patientLastName" class="col-sm-3 col-form-label">Patient Last
+                        Name</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" th:field="*{patientLastName}" id="patientLastName"
-                               placeholder="Enter patient last name"/>
-                        <span th:if="${#fields.hasErrors('patientLastName')}" th:errorclass="text-danger"
-                              th:errors="*{patientLastName}">name.error</span>
+                        <input type="text" class="form-control" th:field="*{patientLastName}"
+                               id="patientLastName"
+                               th:placeholder="#{input.placeholder.lastName}" th:required="required"/>
+                        <span th:if="${#fields.hasErrors('patientLastName')}"
+                              th:errorclass="text-danger"
+                              th:errors="*{patientLastName}" th:text="#{errors.lastName}"></span>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="selectDentist" class="col-sm-3 col-form-label">Select Dentist</label>
                     <div class="col-sm-9">
-                        <select id="selectDentist" th:field="*{dentistName}" class="form-select">
+                        <select id="selectDentist" th:field="*{dentistName}" class="form-select"
+                                th:required="required">
                             <option selected="true" value="">Choose Dentist</option>
                             <option th:each="entry : ${dentistMap.entrySet()}" th:value="${entry.key}"
                                     th:text="${entry.value}"></option>
                         </select>
                         <span th:if="${#fields.hasErrors('dentistName')}" th:errorclass="text-danger"
-                              th:errors="*{dentistName}">name.error</span>
+                              th:errors="*{dentistName}" th:text="#{errors.dentistName}"></span>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="appointmentDate" class="col-sm-3 col-form-label">Appointment Date</label>
+                    <label for="appointmentDate" class="col-sm-3 col-form-label">Appointment
+                        Date</label>
                     <div class="col-sm-9">
-                        <input type="datetime-local" class="form-control" th:field="*{visitTime}" id="appointmentDate"/>
+                        <input type="datetime-local" class="form-control" th:field="*{visitTime}"
+                               id="appointmentDate"
+                               name="appointmentDate"
+                               min="2022-03-11" th:required="required"/>
                         <span th:if="${#fields.hasErrors('visitTime')}" th:errorclass="text-danger"
-                              th:errors="*{visitTime}">name.error</span>
+                              th:errors="*{visitTime}" th:text="#{errors.visitTime}">
+                        </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4 p-4">
-                        <button type="submit" class="btn btn-primary" th:text="#{register.visit}">Book now</button>
+                        <button type="submit" class="btn btn-primary" th:text="#{btn.register}">Book
+                            now
+                        </button>
                     </div>
                     <div class="col-md-4"></div>
                 </div>

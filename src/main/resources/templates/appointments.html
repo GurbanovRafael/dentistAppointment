@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--  Adding Bootstrap for simple prototyping - https://getbootstrap.com   -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" th:href="@{/}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" class="d-block my-1" viewBox="0 0 118 94"
+                 role="img">
+                <title>Bootstrap Dentist Hospital</title>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"
+                      fill="currentColor"></path>
+            </svg>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class=" collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto ">
+                <li class="nav-item">
+                    <a class="nav-link mx-2" aria-current="page" href="#" th:href="@{/}"
+                       th:text="#{nav.link.book}">Book an Appointment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="#" th:href="@{/appointments}" th:text="#{nav.link.view}">View All
+                        Appointments</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>All Appointments </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form action="#" th:action="@{/update/{id}(id=${editId})}" th:object="${dentistVisitDTO}" th:method="put">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient First Name</th>
+                        <th>Patient Last Name</th>
+                        <th>Dentist Name</th>
+                        <th>Appointment Datetime</th>
+                        <th class="text-center"> Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${appointments.empty}">
+                        <td colspan="6" class="text-center"> No Appointments Available</td>
+                    </tr>
+
+                    <tr th:each="appointment : ${appointments}">
+                        <td style="vertical-align: middle;">
+                            <a href="#" th:href="@{/appointment/{id}(id=${appointment.getId()})}"
+                               th:text="|#${appointment.getId()}|">#${appointment.getId()}</a>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <span th:if="${editId != appointment.getId()}"
+                                  th:text="${appointment.getPatientFirstName()}">First name</span>
+
+                            <label th:if="${editId == appointment.getId()}" for="patientFirstName"
+                                   class="col-form-label">
+                                <input id="patientFirstName" type="text" class="form-control"
+                                       th:field="*{patientFirstName}"
+                                       th:placeholder="#{input.placeholder.firstName}" th:required="required"/>
+                                <span th:if="${#fields.hasErrors('patientFirstName')}" th:errorclass="text-danger"
+                                      th:errors="*{patientFirstName}" th:text="#{errors.firstName}"></span>
+                            </label>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <span th:if="${editId != appointment.getId()}"
+                                  th:text="${appointment.getPatientLastName()}">Last Name</span>
+
+                            <label th:if="${editId == appointment.getId()}" for="patientLastName"
+                                   class="col-form-label">
+                                <input id="patientLastName" type="text" class="form-control"
+                                       th:field="*{patientLastName}"
+                                       th:placeholder="#{input.placeholder.lastName}" th:required="required"/>
+                                <span th:if="${#fields.hasErrors('patientLastName')}" th:errorclass="text-danger"
+                                      th:errors="*{patientLastName}" th:text="#{errors.lastName}"></span>
+                            </label>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <span th:if="${editId != appointment.id}"
+                                  th:text="${appointment.getDentistName()}">Dentist Name</span>
+
+                            <label th:if="${editId == appointment.getId()}" for="selectDentist" class="col-form-label">
+                                <select id="selectDentist"
+                                        th:field="*{dentistName}"
+                                        class="form-select"
+                                        th:required="required">
+                                    <option th:selected="true" value="">Choose Dentist</option>
+                                    <option th:each="entry : ${dentistMap.entrySet()}" th:value="${entry.key}"
+                                            th:text="${entry.value}"></option>
+                                </select>
+                                <span th:if="${#fields.hasErrors('dentistName')}" th:errorclass="text-danger"
+                                      th:errors="*{dentistName}" th:text="#{errors.dentistName}"></span>
+                            </label>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <span th:if="${editId != appointment.getId()}"
+                                  th:text="${#temporals.format(appointment.getVisitTime(), 'dd-MM-yyyy HH:mm')}"> Visit time </span>
+
+                            <label th:if="${editId == appointment.getId()}" for="appointmentDate"
+                                   class="col-form-label">
+                                <input type="datetime-local" class="form-control"
+                                       th:field="*{visitTime}"
+                                       id="appointmentDate"
+                                       name="appointmentDate"
+                                       min="2022-03-11" th:required="required"/>
+                                <span th:if="${#fields.hasErrors('visitTime')}" th:errorclass="text-danger"
+                                      th:errors="*{visitTime}" th:text="#{errors.visitTime}"></span>
+                            </label>
+                        </td>
+                        <td style="vertical-align: middle; text-align: center;">
+                            <a href="#" class="btn btn-danger"
+                               th:if="${editId != appointment.getId()}"
+                               th:href="@{/cancel-appointment/{id}(id=${appointment.getId()})}"
+                               th:text="#{btn.cancel.appointment}"
+                               style="min-width: 80px;"
+                            >Cancel appoinment
+                            </a>
+                            <a href="#" class="btn btn-danger"
+                               th:if="${editId == appointment.getId()}"
+                               th:href="@{/cancel}"
+                               th:text="#{btn.cancel}"
+                               style="min-width: 80px;"
+                            >Cancel
+                            </a>
+                            <a href="#" class="btn btn-warning"
+                               th:if="${editId != appointment.getId()}"
+                               th:href="@{/edit/{id}(id=${appointment.getId()})}"
+                               th:text="#{btn.edit}"
+                               style="min-width: 80px;"
+                            >Edit
+                            </a>
+                            <button th:if="${editId == appointment.getId()}" type="submit" class="btn btn-success"
+                                    style="min-width: 80px"
+                                    th:text="#{btn.update}">Update
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
